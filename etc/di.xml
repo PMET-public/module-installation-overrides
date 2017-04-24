@@ -2,4 +2,5 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Magento\CatalogImportExport\Model\Import\Product\SkuProcessor" type="MagentoEse\InstallationOverrides\Model\SkuProcessor" />
     <preference for="Magento\CatalogImportExport\Model\Import\Product\StoreResolver" type="MagentoEse\InstallationOverrides\Model\StoreResolver" />
+    <preference for="Magento\Swatches\Helper\Data" type="MagentoEse\InstallationOverrides\Model\SwatchesHelperData" />
 </config>
