@@ -25,10 +25,17 @@ class CategoryProcessorInit extends \Magento\CatalogImportExport\Model\Import\Pr
                 for ($i = 1; $i < $pathSize; $i++) {
                     $path[] = $collection->getItemById((int)$structure[$i])->getName();
                 }
-                $index = implode(self::DELIMITER_CATEGORY, $path);
+                /** @var string $index */
+                $index = $this->standardizeString(
+                    implode(self::DELIMITER_CATEGORY, $path)
+                );
                 $this->categories[$index] = $category->getId();
             }
         }
    }
+    private function standardizeString($string)
+    {
+        return mb_strtolower($string);
+    }
 
 }
