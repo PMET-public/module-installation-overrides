@@ -13,11 +13,14 @@ class StoreResolver extends \Magento\CatalogImportExport\Model\Import\Product\St
 {
     public function getStoreCodeToId($code = null)
     {
-        //if (empty($this->storeCodeToId)) {
-        $this->_initStores();
-        //}
+        if (empty($this->storeCodeToId)) {
+            $this->_initStores();
+        }
         if ($code) {
-            return isset($this->storeCodeToId[$code]) ? $this->storeCodeToId[$code] : null;
+            if(!isset($this->storeCodeToId[$code])){
+                $this->_initStores();
+            }
+            return $this->storeCodeToId[$code] ??  null;
         }
         return $this->storeCodeToId;
     }
