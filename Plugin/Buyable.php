@@ -78,7 +78,9 @@ class Buyable
 
     public function afterGet(ProductBuyable $subject, array $result)
     {
+        echo "in plugin\n";
         if($this->scopeConfig->getValue('services_connector/services_connector_integration/production_api_key','default')) {
+            echo "no api\n";
             $connection = $this->resourceConnection->getConnection();
             $queryArguments = [];
             try {
