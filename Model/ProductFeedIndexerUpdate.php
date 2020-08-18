@@ -13,6 +13,7 @@ use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\Indexer\ActionInterface as IndexerActionInterface;
 use Magento\Framework\Mview\ActionInterface as MviewActionInterface;
 use Magento\Framework\Serialize\SerializerInterface;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 
 /**
  * Class ProductFeedIndexer
@@ -46,6 +47,10 @@ class ProductFeedIndexerUpdate implements IndexerActionInterface, MviewActionInt
      */
     private $serializer;
 
+
+    /** @var ScopeConfigInterface */
+    private $scopeConfig;
+
     /**
      * ProductFeedIndexer constructor.
      *
@@ -58,12 +63,14 @@ class ProductFeedIndexerUpdate implements IndexerActionInterface, MviewActionInt
         Processor $processor,
         ResourceConnection $resourceConnection,
         SerializerInterface $serializer,
-        DeletedProductsQuery $deletedProductsQuery
+        DeletedProductsQuery $deletedProductsQuery,
+        ScopeConfigInterface $scopeConfig
     ) {
         $this->processor = $processor;
         $this->resourceConnection = $resourceConnection;
         $this->serializer = $serializer;
         $this->deletedProductsQuery = $deletedProductsQuery;
+        $this->scopeConfig = $scopeConfig;
     }
 
     /**
@@ -105,9 +112,9 @@ class ProductFeedIndexerUpdate implements IndexerActionInterface, MviewActionInt
     public function executeFull()
     {
         $this->deletedProductsQuery->updateDeletedFlagQuery();
-//        foreach ($this->getAllIds() as $ids) {
-//            $this->process($ids);
-//        }
+        foreach ($this->getAllIds() as $ids) {
+            $this->process($ids);
+        }
     }
 
     /**
@@ -181,16 +188,17 @@ class ProductFeedIndexerUpdate implements IndexerActionInterface, MviewActionInt
      */
     private function process($ids = [])
     {
-
-//        $data = $this->processor->process('products', $ids);
-//        $chunks = array_chunk($data, self::$batchSize);
-//        $connection = $this->resourceConnection->getConnection();
-//        foreach ($chunks as $chunk) {
-//            $connection->insertOnDuplicate(
-//                $this->resourceConnection->getTableName('catalog_data_exporter_products'),
-//                $this->formatData($chunk),
-//                ['feed_data', 'is_deleted']
-//            );
-//        }
+        if ($this->scopeConfig->getValue('services_connector/services_connector_integration/production_api_key', 'default')) {
+            $data = $this->processor->process('products', $ids);
+            $chunks = array_chunk($data, self::$batchSize);
+            $connection = $this->resourceConnection->getConnection();
+            foreach ($chunks as $chunk) {
+                $connection->insertOnDuplicate(
+                    $this->resourceConnection->getTableName('catalog_data_exporter_products'),
+                    $this->formatData($chunk),
+                    ['feed_data', 'is_deleted']
+                );
+            }
+        }
     }
 }
