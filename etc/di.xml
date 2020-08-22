@@ -4,10 +4,5 @@
     <preference for="Magento\CatalogImportExport\Model\Import\Product\StoreResolver" type="MagentoEse\InstallationOverrides\Model\StoreResolver" />
     <preference for="Magento\Swatches\Helper\Data" type="MagentoEse\InstallationOverrides\Model\SwatchesHelperData" />
     <preference for="Magento\CatalogImportExport\Model\Import\Product\CategoryProcessor" type="MagentoEse\InstallationOverrides\Model\CategoryProcessorInit" />
-    <preference for="Magento\CatalogDataExporter\Model\Provider\Product\Formatter\ScopeFormatter" type="MagentoEse\InstallationOverrides\Model\ProductFeedIndexerUpdate" />
-    <!--    <type name="Magento\CatalogDataExporter\Model\Provider\Product\Buyable">-->
-<!--        <plugin name="modified-buyable-value" disabled="true" />-->
-<!--        <plugin name="override-buyable-value" type="MagentoEse\InstallationOverrides\Plugin\Buyable"/>-->
-<!--    </type>-->
-<!--    <preference for="Magento\CatalogDataExporter\Model\Indexer\ProductFeedIndexer" type="MagentoEse\InstallationOverrides\Model\ProductFeedIndexerUpdate" />-->
+    <preference for="Magento\CatalogDataExporter\Model\Provider\Product\Formatter\ScopeFormatter" type="MagentoEse\InstallationOverrides\Model\ScopeFormatter" />
 </config>
